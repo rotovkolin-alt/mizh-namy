@@ -1,5 +1,5 @@
 /* Офлайн-кеш «Між нами» */
-var CACHE = "mizh-namy-v2";
+var CACHE = "mizh-namy-v3";
 var FILES = ["./", "index.html", "app.js", "tasks.js", "manifest.webmanifest", "icons/icon-192.png", "icons/icon-512.png", "icons/apple-touch-icon.png", "install.html"];
 self.addEventListener("install", function (e) { e.waitUntil(caches.open(CACHE).then(function (c) { return c.addAll(FILES); })); self.skipWaiting(); });
 self.addEventListener("activate", function (e) { e.waitUntil(caches.keys().then(function (ks) { return Promise.all(ks.filter(function (k) { return k !== CACHE; }).map(function (k) { return caches.delete(k); })); })); self.clients.claim(); });
