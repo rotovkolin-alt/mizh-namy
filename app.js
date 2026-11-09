@@ -64,7 +64,18 @@
     d.days = d.days || {}; d.notes = d.notes || {}; d.wishes = d.wishes || {};
     return d;
   }
-  function save() { lsSet("mn_doc", doc); lsSet("mn_cfg", cfg); }
+  var lastAndroidPair = null, androidTimer = null;
+  function isAndroidApp() { return !!window.MNAndroid; }
+  function androidSync() {
+    if (!window.MNAndroid) return;
+    try {
+      var pj = cfg.pair ? JSON.stringify(cfg.pair) : "";
+      if (pj + cfg.me !== lastAndroidPair) { window.MNAndroid.setPair(pj, cfg.me); lastAndroidPair = pj + cfg.me; }
+      clearTimeout(androidTimer);
+      androidTimer = setTimeout(function () { try { window.MNAndroid.docUpdated(JSON.stringify(doc)); } catch (e) {} }, 1200);
+    } catch (e) {}
+  }
+  function save() { lsSet("mn_doc", doc); lsSet("mn_cfg", cfg); androidSync(); }
   function meU() { return doc.users[cfg.me]; }
   function themU() { return doc.users[other(cfg.me)]; }
   function paired() { return !!cfg.pair; }
@@ -465,7 +476,11 @@
       h += '<p class="small muted">Синхронізацію не підключено.</p><button class="btn soft block" data-act="connect">Підключити пару</button>';
     }
     h += "</div>";
-    if (paired()) {
+    if (isAndroidApp()) {
+      h += '<div class="card"><h3>Віджет на головному екрані</h3><p class="small">Віджет уже вбудований у застосунок: він сам знає вашу пару й оновлюється.</p><button class="btn soft block" data-act="pin-widget">Додати віджет на екран</button><p class="hint">Якщо кнопка не спрацювала: утримуй палець на головному екрані → «Віджети» → «Між нами».</p></div>';
+    } else if (/Android/i.test(navigator.userAgent)) {
+      h += '<div class="card"><h3>Застосунок для Android</h3><p class="small">Встанови повну версію з віджетом для головного екрана.</p><a class="btn soft block" href="install.html" style="text-decoration:none">Завантажити для Android</a></div>';
+    } else if (paired()) {
       var wcode = pairCode() + "|" + cfg.me;
       h += '<div class="card"><h3>Віджет на головному екрані</h3><ol class="steps small"><li>Встанови безкоштовний застосунок <b>Scriptable</b> з App Store.</li><li>Скопіюй скрипт віджета на <a href="install.html" style="color:var(--rose);font-weight:600">сторінці встановлення</a> і встав його в Scriptable («+»), назва — <b>mizh-namy-widget</b>.</li><li>На головному екрані: утримуй палець → «+» → Scriptable → обери розмір → «Додати».</li><li>Утримуй віджет → «Редагувати віджет» → Script: <b>mizh-namy-widget</b>, When Interacting: <b>Open URL</b>, Parameter: встав код нижче.</li></ol>' +
         '<div class="code">' + esc(wcode) + '</div><div style="margin-top:10px"><button class="btn soft sm" data-copy="' + esc(wcode) + '">Копіювати код для віджета</button></div>' +
@@ -539,6 +554,7 @@
         touch(); closeSheet(); render(); toast("Збережено"); break;
       case "sync-now": doSync(true).then(function () { closeSheet(); sheetSettings(); toast(sync.status === "ok" ? "Синхронізовано" : sync.error); }); break;
       case "connect": sheetConnect(); break;
+      case "pin-widget": try { window.MNAndroid.pinWidget(); } catch (er) {} toast("Підтверди додавання віджета"); break;
       case "c-create": closeSheet(); cfg.setupDone = false; ui.onb = "create"; ui.onbData = { name: meU().name || "" }; render(); break;
       case "c-join": var code = $("#c-code").value.trim(); closeSheet(); cfg.setupDone = false; ui.onb = "join"; ui.onbData = { name: meU().name || "", code: code }; render(); if (code) onbAction("do-join"); break;
       case "backup": openSheet('<h2>Копія даних</h2><p class="small muted">Збережи цей текст у Нотатках — з нього можна відновити все.</p><textarea rows="8" readonly>' + esc(JSON.stringify({ cfg: cfg, doc: doc })) + '</textarea><div style="height:10px"></div><button class="btn block" data-copy="' + esc(JSON.stringify({ cfg: cfg, doc: doc })) + '">Копіювати</button>'); break;
@@ -565,6 +581,7 @@
   var lastDay = dkey();
   setInterval(function () { if (dkey() !== lastDay) { lastDay = dkey(); safeRender(); } }, 60000);
   render();
+  androidSync();
   if (cfg.setupDone) startSyncLoop();
   window.MN = { doc: function () { return doc; }, cfg: function () { return cfg; }, merge: merge, taskFor: taskFor, questionFor: questionFor };
 })();
