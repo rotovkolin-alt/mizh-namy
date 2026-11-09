@@ -32,6 +32,34 @@ textarea{width:100%;height:90px;border-radius:12px;border:1.5px solid var(--line
 
 <div id="notSafari" class="warn" style="display:none">Відкрий цю сторінку в <b>Safari</b>: тільки він уміє додавати застосунки на головний екран iPhone.</div>
 
+<div id="android" style="display:none">
+<div class="card">
+<h2><span class="n">1</span>Завантаж застосунок</h2>
+<a class="btn" id="apk" href="#">Завантажити «Між нами» (.apk)</a>
+<ol style="margin-top:14px">
+<li>Після завантаження натисни на файл <b>mizh-namy.apk</b> у сповіщеннях або в «Завантаженнях».</li>
+<li>Якщо телефон попередить про невідоме джерело: <b>«Налаштування» → дозволити з цього джерела</b>, потім повернись назад.</li>
+<li>Натисни <b>«Встановити»</b>. Якщо з'явиться Play Захист: <b>«Деталі» → «Усе одно встановити»</b>.</li>
+</ol>
+<div class="muted">Файл ще збирається? Спробуй за кілька хвилин.</div>
+</div>
+<div class="card">
+<h2><span class="n">2</span>Відкрий і з'єднайтеся</h2>
+<ol>
+<li>Відкрий «Між нами».</li>
+<li>Перший телефон: «Створити пару» і надішли код. Другий: «У мене є код».</li>
+</ol>
+</div>
+<div class="card">
+<h2><span class="n">3</span>Віджет</h2>
+<ol>
+<li>У застосунку: ⚙️ → <b>«Додати віджет на екран»</b>.</li>
+<li>Або утримуй палець на головному екрані → <b>«Віджети»</b> → «Між нами».</li>
+</ol>
+<div class="muted">Віджет налаштовується сам, коди вводити не треба.</div>
+</div>
+</div>
+<div id="ios">
 <div class="card">
 <h2><span class="n">1</span>Встанови застосунок</h2>
 <ol>
@@ -69,9 +97,12 @@ textarea{width:100%;height:90px;border-radius:12px;border:1.5px solid var(--line
 <textarea id="wtxt" readonly placeholder="Завантаження скрипта…"></textarea>
 </div>
 </div>
+</div>
 <script>
 (function(){
   var ua=navigator.userAgent;
+  if(/Android/i.test(ua)){document.getElementById('android').style.display='block';document.getElementById('ios').style.display='none';
+    fetch('config.json',{cache:'no-store'}).then(function(r){return r.json();}).then(function(c){if(c.apk)document.getElementById('apk').href=c.apk;}).catch(function(){});}
   if(/iPhone|iPad/.test(ua) && /CriOS|FxiOS|EdgiOS|Telegram|Instagram|FBAN|GSA/.test(ua)) document.getElementById('notSafari').style.display='block';
   var ta=document.getElementById('wtxt'), txt='';
   fetch('widget.js',{cache:'no-store'}).then(function(r){return r.text();}).then(function(t){txt=t;ta.value=t;}).catch(function(){ta.value='Не вдалося завантажити скрипт. Онови сторінку.';});
