@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/widget_bg"
+    android:padding="14dp">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+        <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"
+            android:text="💞 Між нами" android:textColor="#FFFFFF" android:textSize="13sp" android:textStyle="bold" />
+        <TextView android:id="@+id/together" android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:textColor="#E6FFFFFF" android:textSize="11sp" />
+    </LinearLayout>
+    <TextView android:id="@+id/label" android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:layout_marginTop="8dp" android:textColor="#CCFFFFFF" android:textSize="10sp" android:textStyle="bold"
+        android:text="Завдання дня" />
+    <TextView android:id="@+id/task" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1"
+        android:layout_marginTop="2dp" android:textColor="#FFFFFF" android:textSize="15sp" android:fontFamily="serif"
+        android:ellipsize="end" android:maxLines="4" android:text="Відкрий застосунок, щоб підключити пару" />
+    <TextView android:id="@+id/ping" android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:textColor="#FFFFFF" android:textSize="11sp" android:textStyle="bold" android:maxLines="1" android:ellipsize="end"
+        android:visibility="gone" />
+    <TextView android:id="@+id/status" android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:layout_marginTop="4dp" android:textColor="#FFFFFF" android:textSize="11sp" android:maxLines="1" android:ellipsize="end" />
+</LinearLayout>
