@@ -14,7 +14,7 @@
       <key>PayloadDisplayName</key><string>Між нами</string>
       <key>PayloadIdentifier</key><string>io.github.rotovkolin-alt.mizhnamy.webclip</string>
       <key>PayloadType</key><string>com.apple.webClip.managed</string>
-      <key>PayloadUUID</key><string>15551361-9AB6-452C-8B70-9A16F469F9D0</string>
+      <key>PayloadUUID</key><string>81E47CD9-2900-48CD-985D-AC46BFF475A8</string>
       <key>PayloadVersion</key><integer>1</integer>
     </dict>
   </array>
@@ -23,7 +23,7 @@
   <key>PayloadIdentifier</key><string>io.github.rotovkolin-alt.mizhnamy</string>
   <key>PayloadRemovalDisallowed</key><false/>
   <key>PayloadType</key><string>Configuration</string>
-  <key>PayloadUUID</key><string>0F473308-71D0-4C2F-A0D2-5267761971E3</string>
+  <key>PayloadUUID</key><string>AC8789BF-6F01-4C67-93F8-F3C241D6CC97</string>
   <key>PayloadVersion</key><integer>1</integer>
 </dict>
 </plist>
