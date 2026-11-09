@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Встановити «Між нами»</title>
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<style>
+:root{--bg:#FBF3EE;--card:#fff;--ink:#2A1A22;--muted:#8A7580;--rose:#D63F6A;--soft:#FCE4EA;--line:#EEDFD8}
+@media (prefers-color-scheme:dark){:root{--bg:#1C1418;--card:#2A1F25;--ink:#F7EBEF;--muted:#B49FA9;--rose:#FF6B93;--soft:#3D2430;--line:#3B2D34}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;padding:env(safe-area-inset-top) 0 40px}
+.w{max-width:520px;margin:0 auto;padding:20px}
+h1{font-family:ui-serif,"New York",Georgia,serif;font-size:34px;margin:10px 0 4px}
+.logo{width:84px;height:84px;border-radius:20px;box-shadow:0 8px 24px rgba(214,63,106,.3)}
+.card{background:var(--card);border-radius:22px;padding:18px;margin:16px 0;box-shadow:0 1px 2px rgba(80,30,50,.06),0 8px 24px rgba(80,30,50,.07)}
+.n{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--rose);color:#fff;font-weight:700;font-size:14px;margin-right:8px}
+h2{font-size:19px;margin:0 0 10px;display:flex;align-items:center}
+ol{padding-left:20px;margin:6px 0}li{margin:7px 0}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;height:50px;border-radius:16px;background:var(--rose);color:#fff;font-weight:700;text-decoration:none;border:0;width:100%;font-size:16px;margin-top:12px}
+.btn.soft{background:var(--soft);color:var(--rose)}
+.muted{color:var(--muted);font-size:14px}
+.share{display:inline-block;border:1.5px solid var(--rose);border-radius:6px;padding:0 5px;color:var(--rose);font-weight:700}
+.ok{background:var(--soft);border-radius:16px;padding:14px;margin:12px 0;font-weight:600}
+textarea{width:100%;height:90px;border-radius:12px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);font:12px ui-monospace,Menlo,monospace;padding:10px;margin-top:10px}
+.warn{background:#FFF4D6;color:#5C4300;border-radius:14px;padding:12px 14px;font-size:14px;margin:12px 0}
+</style>
+</head>
+<body><div class="w">
+<img class="logo" src="icons/icon-192.png" alt="">
+<h1>Між нами</h1>
+<div class="muted">Застосунок для двох закоханих: щоденні завдання, питання, записки, мрії.</div>
+
+<div id="notSafari" class="warn" style="display:none">Відкрий цю сторінку в <b>Safari</b>: тільки він уміє додавати застосунки на головний екран iPhone.</div>
+
+<div class="card">
+<h2><span class="n">1</span>Встанови застосунок</h2>
+<ol>
+<li>Натисни внизу кнопку <span class="share">⬆︎</span> «Поділитися».</li>
+<li>Прокрути вниз і вибери <b>«На початковий екран»</b>.</li>
+<li>Натисни <b>«Додати»</b>, і на екрані з'явиться іконка 💞.</li>
+</ol>
+<div class="muted">Або одним профілем (iPhone попросить підтвердження в Параметрах):</div>
+<a class="btn soft" href="install.mobileconfig">Встановити профілем</a>
+<div class="muted" style="margin-top:8px">Після завантаження: Параметри → «Профіль завантажено» → Встановити.</div>
+</div>
+
+<div class="card">
+<h2><span class="n">2</span>Відкрий і з'єднайтеся</h2>
+<ol>
+<li>Відкрий «Між нами» <b>з іконки</b> на головному екрані.</li>
+<li>Перший телефон: «Створити пару», потім надішли код коханій людині.</li>
+<li>Другий телефон: «У мене є код», встав код.</li>
+</ol>
+</div>
+
+<div class="card">
+<h2><span class="n">3</span>Віджет на головний екран</h2>
+<ol>
+<li>Встанови безкоштовний <b>Scriptable</b>:
+<a class="btn soft" href="https://apps.apple.com/app/scriptable/id1405459188">Відкрити App Store</a></li>
+<li>Скопіюй скрипт віджета:
+<button class="btn" id="copyW">Скопіювати скрипт віджета</button>
+<div id="wok" class="ok" style="display:none">Скопійовано ✓</div></li>
+<li>У Scriptable натисни <b>«+»</b>, встав текст і вгорі назви скрипт <b>mizh-namy-widget</b>.</li>
+<li>У «Між нами»: ⚙️ → <b>«Копіювати код для віджета»</b>.</li>
+<li>Утримуй палець на головному екрані → <b>«Редагувати» → «Додати віджет» → Scriptable</b>, обери розмір.</li>
+<li>Натисни на віджет: Script — <b>mizh-namy-widget</b>, When Interacting — <b>Open URL</b>, Parameter — встав код.</li>
+</ol>
+<textarea id="wtxt" readonly placeholder="Завантаження скрипта…"></textarea>
+</div>
+</div>
+<script>
+(function(){
+  var ua=navigator.userAgent;
+  if(/iPhone|iPad/.test(ua) && /CriOS|FxiOS|EdgiOS|Telegram|Instagram|FBAN|GSA/.test(ua)) document.getElementById('notSafari').style.display='block';
+  var ta=document.getElementById('wtxt'), txt='';
+  fetch('widget.js',{cache:'no-store'}).then(function(r){return r.text();}).then(function(t){txt=t;ta.value=t;}).catch(function(){ta.value='Не вдалося завантажити скрипт. Онови сторінку.';});
+  document.getElementById('copyW').addEventListener('click',function(){
+    var ok=function(){document.getElementById('wok').style.display='block';};
+    var fb=function(){ta.focus();ta.select();ta.setSelectionRange(0,ta.value.length);try{document.execCommand('copy');ok();}catch(e){alert('Виділи текст у полі нижче й скопіюй вручну');}};
+    try{
+      if(txt&&navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(ok,fb);}
+      else if(window.ClipboardItem&&navigator.clipboard&&navigator.clipboard.write){
+        navigator.clipboard.write([new ClipboardItem({'text/plain':fetch('widget.js').then(function(r){return r.blob();})})]).then(ok,fb);
+      } else fb();
+    }catch(e){fb();}
+  });
+})();
+</script>
+</body>
+</html>
